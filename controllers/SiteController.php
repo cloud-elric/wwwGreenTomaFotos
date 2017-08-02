@@ -72,8 +72,6 @@ class SiteController extends Controller {
 	public function actionRegistro(){
 		$usuario = new EntUsuarios ();
 
-		
-
 		if ($usuario->load ( Yii::$app->request->post () )) {
 
 			$usuario->txt_token = "usr_" . md5 ( uniqid ( "usr_" ) ) . uniqid ();
