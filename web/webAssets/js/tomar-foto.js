@@ -53,9 +53,22 @@ $(document).on({
 
         }).done(function (o) {
             timesButton = 0;
-
+            setTimeout(function() {
+                
+            }, 2000);
             $("#js-contenedor-imagenes").html('');
+
             swal("Ok", "Imagen guardada", "success");
+            swal({
+                title: "Imagen guardada",
+                text: "Gracias por participar. Se ha enviado un SMS con un link para que puedas descargar tu imagen.",
+                type: "success",
+                showCancelButton: false,
+                closeOnConfirm: false
+                },
+                function(){
+               window.location.href = basePath;
+            });
 
             l.stop();
             console.log('saved');
