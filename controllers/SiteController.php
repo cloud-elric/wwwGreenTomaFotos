@@ -6,6 +6,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use app\models\EntUsuarios;
 
 
 
@@ -78,7 +79,7 @@ class SiteController extends Controller {
 			if ($usuario->save ()) {
 		
 
-				return $this->redirect(['capturar-foto', 'token'=>$usuario->txt_token]);
+				return $this->redirect(['tomar-foto', 'token'=>$usuario->txt_token]);
 			}
 
 			
@@ -89,29 +90,108 @@ class SiteController extends Controller {
 		] );
 	}
 
-	public function actionTomarFoto(){
+	public function actionTomarFoto($token = null){
+		 $usuario = EntUsuarios::find()->where(['txt_token'=>$token])->one();
 
-		return $this->render("cargar-foto");
+		 if($usuario){
+
+		 	return $this->render("cargar-foto", ['token'=>$usuario->txt_token]);
+		 }
+	}
+
+	public function actionGuardarFoto($token = null){
+		
+		$usuario = EntUsuarios::find()->where(['txt_token'=>$token])->one();
+		if($usuario){
+			if(isset($_POST['imgBase64']) ){
+				$data = $_POST['imgBase64'];
+				
+
+				$data = str_replace('data:image/png;base64,', '', $data);
+				$data = str_replace(' ', '+', $data);
+				$data = base64_decode($data);
+				$nombreFoto = uniqid().".png";
+				$file =  "fotos-tomadas/".$nombreFoto;
+				$success = file_put_contents($file, $data);
+
+				$usuario->txt_imagen = $nombreFoto;
+				$usuario->save();
+
+
+				$link = Yii::$app->urlManager->createAbsoluteUrl ( [ 
+								'site/ver-imagen?token=' . $usuario->txt_token
+				] );	
+				$urlCorta = $this->getShortUrl($link);
+
+				$message = urlencode ( "UFC. Comparte tu fotografía: " . $urlCorta );
+
+				print_r($this->sendSMS($usuario->txt_telefono_celular, $message));
+				
+			}
+		}
 
 	}
 
-	public function actionGuardarFoto(){
+	public function actionVerImagen($token=null){
+		$usuario = EntUsuarios::find()->where(['txt_token'=>$token])->one();
+		if($usuario){
 		
-
-		if(isset($_POST['imgBase64']) ){
-			$data = $_POST['imgBase64'];
-			
-
-			$data = str_replace('data:image/png;base64,', '', $data);
-			$data = str_replace(' ', '+', $data);
-			$data = base64_decode($data);
-			$idFoto = uniqid();
-			$file =  "fotos-tomadas/".$idFoto . '.png';
-			$success = file_put_contents($file, $data);
-		
+		return $this->renderAjax("ver-imagen", ['usuario'=>$usuario]);
 		}
+	}
 
+	private function sendSMS($tel='', $message=''){
+		
+		$urlAutenticate = 'http://sms-tecnomovil.com/SvtSendSms?username=PIXERED&password=Pakabululu01&message=' . $message . '&numbers=' . $tel;
+		//$sms = file_get_contents ( $url );	
 
+		#$urlAutenticate = 'http://dgom.mobi';
+		
+		$ch = curl_init ();
+		
+		curl_setopt ( $ch, CURLOPT_URL, $urlAutenticate );
+		
+		curl_setopt ( $ch, CURLOPT_POSTREDIR, 3 );
+		curl_setopt ( $ch, CURLOPT_FOLLOWLOCATION, true );
+		
+		// in real life you should use something like:
+		// curl_setopt($ch, CURLOPT_POSTFIELDS,
+		// http_build_query(array('postvar1' => 'value1')));
+		
+		// receive server response ...
+		curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+		
+		$server_output = curl_exec ( $ch );
+		
+		curl_close ( $ch );
+		
+		return $server_output;			
+
+	}
+
+	private function getShortUrl($url) {
+		$urlAutenticate = 'http://dgom.mobi';
+		
+		$ch = curl_init ();
+		
+		curl_setopt ( $ch, CURLOPT_URL, $urlAutenticate );
+		curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'POST' );
+		curl_setopt ( $ch, CURLOPT_POSTFIELDS, 'user=userGreenSaco&pass=passGreenSacro&app=GreenSacro&url=' . $url );
+		curl_setopt ( $ch, CURLOPT_POSTREDIR, 3 );
+		curl_setopt ( $ch, CURLOPT_FOLLOWLOCATION, true );
+		
+		// in real life you should use something like:
+		// curl_setopt($ch, CURLOPT_POSTFIELDS,
+		// http_build_query(array('postvar1' => 'value1')));
+		
+		// receive server response ...
+		curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+		
+		$server_output = curl_exec ( $ch );
+		
+		curl_close ( $ch );
+		
+		return $server_output;
 	}
 
 	

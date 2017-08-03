@@ -38,14 +38,6 @@ $this->title="Registro";
 				echo $form->field ( $usuario, 'txt_email' )->textInput ( [
 						'placeholder'=>'Email'
 				] )->label();
-				// Genera un input
-				echo $form->field ( $usuario, 'txt_empresa' )->textInput ( [
-						'placeholder'=>'Empresa'
-				] )->label();
-
-				echo $form->field ( $usuario, 'txt_cargo' )->textInput ( [
-						'placeholder'=>'Cargo'
-				] )->label();
 				
 				?>
 				<!---->

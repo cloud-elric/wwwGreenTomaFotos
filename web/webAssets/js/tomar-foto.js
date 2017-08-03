@@ -1,57 +1,43 @@
 
-function agregarPreviewImage(element, jqelement) {
-    var file = element.files[0];
-
-    if (!file) {
-
-        return false;
-    }
-
-    var imagefile = file.type;
-
-    var filename = jqelement.val();
-
-    if (filename.substring(3, 11) == 'fakepath') {
-        filename = filename.substring(12);
-    }// remove c:\fake at beginning from localhost chrome
-    // var url = base+'usrUsuarios/guardarFotosCompetencia';
-
-    var match = ["image/jpeg", "image/jpg", 'image/png'];
-
-    if (!((imagefile == match[0]) || (imagefile == match[1]) || (imagefile == match[2]))) {
-
-        swal("Espera", "Archivo no aceptado por el sistema", "warning");
-
-        return false;
-    }
-
-    if (element.files && element.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            var token = jqelement.data('token');
-            $('#photo2').attr('src', e.target.result);
-
-            //$('#modal-sustain-art-' + token+' .sustain-art-cont-images-dialog-img').css(
-            //        'background-image', 'url(' + e.target.result + ')');
+var numero_fotos = 4;
+var tiempo_entre_fotos = 2000;
+var timesButton = 0;
+var audio = new Audio(basePath + '/webAssets/audio/camera-shooter.mp3');
 
 
-        }
-
-        reader.readAsDataURL(element.files[0]);
+function reproducirAudio() {
+    if (audio) {
+        audio.play();
     }
 }
-var timesButton = 0;
-$(document).ready(function () {
 
-    $("#input-subir-imagen").on("change", function () {
-        agregarPreviewImage(this, $(this));
-    });
+function detenerAudio() {
+    if (audio) {
+        audio.pause();
+    }
+}
 
-    $("#btn-guardar").on("click", function () {
+$(document).on({
+    'click': function (e) {
+
+        $(".js-imagen-preview").css('opacity', 0.5);
+        $(".js-seleccionar-imagen").css('display', 'none');
+
+
+        var token = $(this).data('token');
+        $(this).css('opacity', 1);
+        $("#js-seleccionar-imagen-" + token).show();
+
+    }
+}, '.js-imagen-preview');
+
+$(document).on({
+    'click': function (e) {
+
         var canvas = document.getElementById('canvas');
         var dataURL = canvas.toDataURL();
-       if (timesButton < 1) {
+        var token = $("#token").val();
+        if (timesButton < 1) {
             swal("Espera", "Debes tomarte una foto", "warning");
             return false;
         }
@@ -60,17 +46,17 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "guardar-foto",
+            url: "guardar-foto?token="+token,
             data: {
                 imgBase64: dataURL,
             },
 
         }).done(function (o) {
             timesButton = 0;
-           
-            $("#photo").attr('src', '');
+
+            $("#js-contenedor-imagenes").html('');
             swal("Ok", "Imagen guardada", "success");
-           
+
             l.stop();
             console.log('saved');
             // If you want the file to be visible in the browser 
@@ -78,8 +64,10 @@ $(document).ready(function () {
             // need is to return the url to the file, you just saved 
             // and than put the image in your browser.
         });
-    });
-});
+
+    }
+}, '.js-seleccionar-imagen');
+
 
 
 ; (function () {
@@ -106,6 +94,35 @@ $(document).ready(function () {
             // URL Object is different in WebKit
             var url = window.URL || window.webkitURL;
 
+
+            if (audio) {
+                audio.loop = false;
+                audio.onended = function () {
+                    var templateImagen = "<img class='js-imagen-preview' id='preview-imagen-" + timesButton 
+                    + "' data-token='" + timesButton + "' />"+
+                    "<button data-style='zoom-in' style='display:none;' id='js-seleccionar-imagen-" + timesButton + "' "+
+                    "class='js-seleccionar-imagen ladda-button btn btn-primary' data-token='" + timesButton + 
+                    "'> <span class='ladda-label'>   Seleccionar Imagen</span></button>";
+
+                    $("#js-contenedor-imagenes").append(templateImagen);
+
+                    if (videoPlaying) {
+                        var canvas = document.getElementById('canvas');
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        canvas.getContext('2d').drawImage(video, 0, 0);
+                        var data = canvas.toDataURL('image/webp');
+                        document.getElementById('preview-imagen-' + timesButton).setAttribute('src', data);
+                        timesButton++;
+                    }
+
+                    if (timesButton < numero_fotos) {
+                        setTimeout(function () { reproducirAudio() }, tiempo_entre_fotos);
+                    }
+
+                };
+            }
+
             // create the url and set the source of the video element
             video.src = url ? url.createObjectURL(stream) : stream;
 
@@ -121,16 +138,12 @@ $(document).ready(function () {
         // Listen for user click on the "take a photo" button
         document.getElementById('take').addEventListener('click', function () {
 
+            reproducirAudio();
 
-            if (videoPlaying) {
-                var canvas = document.getElementById('canvas');
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                canvas.getContext('2d').drawImage(video, 0, 0);
-                var data = canvas.toDataURL('image/webp');
-                document.getElementById('photo').setAttribute('src', data);
-                timesButton++;
-            }
+
+
+
+
         }, false);
 
 

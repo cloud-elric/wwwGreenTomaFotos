@@ -140,34 +140,6 @@ $(document).ready(function () {
 			var l = Ladda.create(document.getElementById('js-btn-guardar-informacion'));
 			l.start();
 
-			//var data = form.serialize();
-
-			// $.ajax({
-			// 	url: 'site/guardar-informacion',// url para peticion
-			// 	type: 'post', // Metodo en el que se enviara la informacion
-			// 	data: data, // La informacion a mandar
-			// 	dataType: 'HTML',  // Tipo de respuesta
-			// 	success: function (response) { // Cuando la peticion sea exitosamente se ejecutara la funcion
-			// 		$('.js-premio-ajax').html(response);
-			// 		step3();
-			// 		// Reseteamos el modal
-			// 		document.getElementById("form-usuario-participar").reset();
-
-			// 		l.stop();
-			// 		$('.js-check-box-aviso').css('background', 'white');
-
-			// 		$('.js-check-box-aviso').removeClass('js-check-box-aviso-checked');
-			// 	},
-			// 	error: function () {
-			// 		l.stop();
-			// 	},
-			// 	statusCode: {
-			// 		404: function () {
-			// 			//alert( "page not found" );
-			// 		}
-			// 	}
-			// });
-			//return false;
 		});
 
 

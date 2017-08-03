@@ -31,7 +31,7 @@ class EntUsuarios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['txt_nombre_completo', 'txt_telefono_celular', 'txt_token'], 'required'],
+            [['txt_nombre_completo', 'txt_telefono_celular', 'txt_token', 'txt_email'], 'required', 'message'=>'Campos requeridos'],
             [['fch_registro'], 'safe'],
             [['b_aceptar_terminos'], 'integer'],
             [['txt_nombre_completo'], 'string', 'max' => 150],
@@ -48,10 +48,10 @@ class EntUsuarios extends \yii\db\ActiveRecord
     {
         return [
             'id_usuario' => 'Id Usuario',
-            'txt_nombre_completo' => 'Txt Nombre Completo',
-            'txt_telefono_celular' => 'Txt Telefono Celular',
+            'txt_nombre_completo' => 'Nombre completo',
+            'txt_telefono_celular' => 'Télefono celular',
             'txt_token' => 'Txt Token',
-            'txt_email' => 'Txt Email',
+            'txt_email' => 'Email',
             'fch_registro' => 'Fch Registro',
             'b_aceptar_terminos' => 'B Aceptar Terminos',
         ];
