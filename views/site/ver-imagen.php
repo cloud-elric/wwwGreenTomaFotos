@@ -1,20 +1,21 @@
 <?php
 use yii\helpers\Url;
 
-$url =  Yii::$app->urlManager->createAbsoluteUrl ( [ 
-								'' 
-				] );	
+$url =  Yii::$app->urlManager->createAbsoluteUrl ( [
+								''
+				] );
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta property="og:site_name" content="Mi fotografía UFC"/>
-<meta property="og:title" content="Mira mi genial fotografía."/>
+<meta property="og:title" content="Mira mi genial fotografía. #2GeeksOneMonkey"/>
 <meta property="og:description" content=""/>
 <meta property="og:image" content="<?=$url?>fotos-tomadas/<?=$usuario->txt_imagen?>" />
 <meta property="og:url" content="<?=$url?>site/ver-imagen?token=<?=$usuario->txt_token?>" />
 
+<link rel="stylesheet" href="<?=$url?>webAssets/css/site.css">
 <script>
 window.fbAsyncInit = function() {
 	FB.init({
@@ -44,8 +45,8 @@ window.fbAsyncInit = function() {
 
 	var image = "<?=$url?>site/ver-imagen?token=<?=$usuario->txt_token?>";
 	var description = "#campaña";
-	var title = "Mira mi increible fotografía";
-	
+	var title = "Mira mi increible fotografía #2GeeksOneMonkey #nombreCampaña";
+
 	FB.ui({
 		method : 'feed',
 		name : title,
@@ -65,9 +66,16 @@ window.fbAsyncInit = function() {
 </head>
 
 <body>
-<img src="<?=$url?>fotos-tomadas/<?=$usuario->txt_imagen?>" />
-   
-   <button onclick="compartirFacebook();">Compartir en facebook</button>
+
+<div class="container bkgd-activacion">
+
+		<h2>Gracias por participar</h2>
+			<img class="foto-para-compartir" src="<?=$url?>fotos-tomadas/<?=$usuario->txt_imagen?>" />
+
+	   <button class="btn btn-share-on-facebook" onclick="compartirFacebook();">Compartir en facebook</button>
+
+</div>
+
 
 
 </body>

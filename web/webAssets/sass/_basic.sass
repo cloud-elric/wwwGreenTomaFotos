@@ -1,16 +1,16 @@
 /*!
-	-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 
-	2.0 - Basicos
-			# Basic
-			# Utility
-			# Extra
+	// 2.0 - Basicos
+	// 		# Basic
+	// 		# Utility
+	// 		# Extra
 
-	-----------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------
 	*/
 
 /*  Basic
-	========================================================================== */
+	// ========================================================================== */
 *,
 *:after,
 *:before
@@ -67,6 +67,8 @@ label
 		weight: $e-bold
 	margin: 0
 	padding: 0
+	color: $accent
+	margin-bottom: 30px
 h1,
 .h1
 	font-size: 2.8em
@@ -117,6 +119,7 @@ hr
 	+border-radius(50px)
 	box-shadow: 0 3px 0 rgba(0,0,0,.05)
 	min-width: 100px
+	max-width: 250px
 
 .btn.active.focus,
 .btn.active:focus,
@@ -154,6 +157,29 @@ hr
 	background-color: $secondary
 	border-color: $secondary
 
+.btn-share-on-facebook
+	background-color: #3b5998
+	margin-top: 50px
+	color: white
+	font-weight: $regular
+
+.btn-block
+	position: absolute
+	bottom: 20%
+	left: 50%
+	height: 100px
+	width: 200px
+	opacity: 0.7
+	margin-left: -100px
+	display: flex
+	flex-flow: column
+	align-items: center
+	justify-content: center
+	background-color: $secondary
+	i
+		font-size: 3em
+		margin-bottom: 10px
+
 .btn-simple
 	font-weight: $regular
 	padding: 0
@@ -181,6 +207,9 @@ hr
 	border-color: $accent
 	background-image: none
 
+.btn-block.active,
+.btn-block:active
+	color: $secondary
 
 .highlight
 	color: $accent
@@ -192,11 +221,14 @@ hr
 	color: $primary
 
 
+.row-align-center
+	text-align: center
+
 .container-960
 	max-width: 960px
 	width: 960px
 	margin: 0 auto
-	height: calc(100vh - 80px);
+	height: calc(100vh - 80px)
 	+respond-to(xs)
 		width: 100%
 

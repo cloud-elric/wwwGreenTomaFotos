@@ -19,6 +19,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
     		'webAssets/plugins/ladda-bootstrap/dist/ladda-themeless.min.css',
+        'webAssets/css/ionicons.min.css',
     		'webAssets/plugins/sweet-alert/sweetalert.css',
     		'webAssets/css/site.css'
     ];

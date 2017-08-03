@@ -1,11 +1,11 @@
-/*!
-	-----------------------------------------------------------------------------
-
-	4.0 - Estilos propios del Sitio
-			# Extra
-
-	-----------------------------------------------------------------------------
-	*/
+// /*!
+// 	-----------------------------------------------------------------------------
+//
+// 	4.0 - Estilos propios del Sitio
+// 			# Extra
+//
+// 	-----------------------------------------------------------------------------
+// 	*/
 
 body
 	background-color: $white
@@ -73,7 +73,7 @@ body
 
 	.form-wrapper
 		margin-top: 20px
-		width: 450px
+		width: 300px
 		background-color: transparent
 		+respond-to(xs)
 			width: 90%
@@ -97,7 +97,7 @@ body
 			height: 40px
 			margin: 8px 0
 			border: 2px solid $primary
-			width: 70%
+			width: 100%
 			padding: 0 16px
 			border-radius: 3px
 			font-family: $f-base
@@ -108,10 +108,10 @@ body
 			+respond-to(xs)
 				width: 100%
 		input::placeholder
-				opacity: .7
+			opacity: .7
 		.help-block
 			font-size: .8em
-			text-indent: 140px
+			text-indent: 10px
 			color: $accent
 
 		.terminos-wrapper
@@ -133,7 +133,7 @@ body
 				width: auto
 				margin: 0
 				padding: 0
-				font-size: .95em
+				font-size: .85em
 
 		.form-cta-wrapper
 			margin-top: 10px
@@ -161,26 +161,12 @@ body
 
 		p
 			margin-bottom: 20px
-		.gano-btn,
-		.perdio-btn
-			width: 253px
-			height: 253px
-			display: inline-block
-			margin: 0 20px
-			background:
-				image: url("../images/gano.png")
-			h3
-				color: $white
-				margin-top: 100px
-		.perdio-btn
-			background:
-				image: url("../images/perdio.png")
 
 .container-ribbon,
 .container-premio
 	flex-direction: column
 	background:
-		image: url("../images/bkgd.png")
+		image: url("../images/bkgd.jpg")
 		size: cover
 		position: center
 
@@ -200,7 +186,7 @@ body
 	justify-content: center
 	align-items: center
 	background:
-		image: url("../images/bkgd.png")
+		image: url("../images/bkgd.jpg")
 		position: center
 		repeat: no-repeat
 		size: cover
@@ -245,3 +231,50 @@ body
 
 .message
 	color: $white
+
+
+.video-bkgd
+	background-color: $black
+	height: 100vh
+	overflow: hidden
+
+
+.contenedor-de-imagenes
+	position: absolute
+	top: 0
+	right: 0
+	background:
+		image: url('')
+		repeat: no-repeat
+		size: cover
+		position: center
+		color: $secondary
+	height: 100vh
+	width: 500px
+
+	img
+		width: 50%
+		margin: 20px 0
+		position: relative
+
+	button
+		position: absolute
+		bottom: 250px
+		width: 300px
+		height: 200px
+		left: 50%
+		margin-left: -150px
+
+
+.bkgd-activacion
+	background:
+		image: url('../images/bkgd.jpg')
+		repeat: no-repeat
+		size: cover
+		position: bottom left
+		color: $secondary
+
+
+.foto-para-compartir
+	border-radius: 10px
+	border: 5px solid $primary
