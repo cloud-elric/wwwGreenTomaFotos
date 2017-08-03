@@ -36,17 +36,7 @@ var basePath = '<?=Url::base()?>';
                         </div>
                     </div>
 
-                    
-
-                    <div class="row">
-                        <div class="col-md-8 col-md-offset-2 text-center">
-                            <button data-style="zoom-in" id="btn-guardar" class="btn btn-success btn-block ladda-button">
-                                <span class="ladda-label">    
-                                    Guardar foto
-                                </span>    
-                            </button>
-                        </div>
-                    </div>
+                   
                                     
                     <canvas id="canvas" style="display:none;"></canvas>
             </div>
