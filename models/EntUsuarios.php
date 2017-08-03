@@ -32,6 +32,7 @@ class EntUsuarios extends \yii\db\ActiveRecord
     {
         return [
             [['txt_nombre_completo', 'txt_telefono_celular', 'txt_token', 'txt_email'], 'required', 'message'=>'Campos requeridos'],
+            [['txt_email', 'email', 'message'=>'Email no válido'], 'safe'],
             [['fch_registro'], 'safe'],
             [['b_aceptar_terminos'], 'integer'],
             [['txt_nombre_completo'], 'string', 'max' => 150],
