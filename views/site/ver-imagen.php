@@ -1,5 +1,9 @@
 <?php
 use yii\helpers\Url;
+
+$url =  Yii::$app->urlManager->createAbsoluteUrl ( [ 
+								'' 
+				] );	
 ?>
 <!DOCTYPE html>
 <html>
@@ -8,8 +12,8 @@ use yii\helpers\Url;
 <meta property="og:site_name" content="Mi fotografía UFC"/>
 <meta property="og:title" content="Mira mi genial fotografía."/>
 <meta property="og:description" content=""/>
-<meta property="og:image" content="<?=Url::base()?>/fotos-tomadas/<?=$usuario->txt_imagen?>" />
-<meta property="og:url" content="<?=Url::base()?>/site/ver-imagen?token=<?=$usuario->txt_token?>" />
+<meta property="og:image" content="<?=$url?>/fotos-tomadas/<?=$usuario->txt_imagen?>" />
+<meta property="og:url" content="<?=$url?>/site/ver-imagen?token=<?=$usuario->txt_token?>" />
 
 <script>
 window.fbAsyncInit = function() {
@@ -38,14 +42,14 @@ window.fbAsyncInit = function() {
 
     function compartirFacebook() {
 
-	var image = "<?=Url::base()?>/site/ver-imagen?token=<?=$usuario->txt_token?>";
+	var image = "<?=$url?>/site/ver-imagen?token=<?=$usuario->txt_token?>";
 	var description = "#campaña";
 	var title = "Mira mi increible fotografía";
 	
 	FB.ui({
 		method : 'feed',
 		name : title,
-		link : "<?=Url::base()?>/site/ver-imagen?token=<?=$usuario->txt_token?>",
+		link : "<?=$url?>/site/ver-imagen?token=<?=$usuario->txt_token?>",
 		picture : image,
 		caption : '2 Geeks one monkey',
 		description : description
@@ -61,7 +65,7 @@ window.fbAsyncInit = function() {
 </head>
 
 <body>
-<img src="<?=Url::base()?>/fotos-tomadas/<?=$usuario->txt_imagen?>" />
+<img src="<?=$url?>/fotos-tomadas/<?=$usuario->txt_imagen?>" />
    
    <button onclick="compartirFacebook();">Compartir en facebook</button>
 
