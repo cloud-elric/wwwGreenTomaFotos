@@ -96,6 +96,9 @@ class SiteController extends Controller
 		]);
 	}
 
+	/*
+	* Toma fotografía
+	*/ 
 	public function actionTomarFoto($token = null)
 	{
 		$usuario = EntUsuarios::find()->where(['txt_token' => $token])->one();
