@@ -7,6 +7,8 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\EntUsuarios;
+use movemegif\domain\FileImageCanvas;
+use movemegif\GifBuilder;
 
 
 
@@ -194,6 +196,29 @@ class SiteController extends Controller {
 		return $server_output;
 	}
 
+	public function actionGif(){
+
+		// just for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// include movemegif's namespace
+		 require __DIR__.'\..\vendor\movegif\autoloader.php';
+
+
+		 // no width and height specified: they will be taken from the first frame
+$builder = new GifBuilder();
+$builder->setRepeat();
+
+for ($i = 1; $i <= 4; $i++) {
+
+    $builder->addFrame()
+        ->setCanvas(new FileImageCanvas(__DIR__ . '/../web/fotos-tomadas/' . $i . '.png'))
+        ->setDuration(20);
+}
+
+$builder->output('horse.gif');
+	}
 	
 
 }
