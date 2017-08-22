@@ -133,7 +133,7 @@ class SiteController extends Controller
 				]);
 				$urlCorta = $this->getShortUrl($link);
 
-				$message = "UFC. Comparte tu fotografía: " . $urlCorta ;
+				$message = "2 Geeks one Monkey  te invita a Compartir tu fotografía con la siguiente: " . $urlCorta ;
 
 				//print_r($this->sendSMS($usuario->txt_telefono_celular, $message));
 				$mensajes = new Mensajes();
