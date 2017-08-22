@@ -16,6 +16,7 @@ class Mensajes{
             CURLOPT_RETURNTRANSFER => TRUE,
             CURLOPT_POSTFIELDS => array(
                     "apikey" => "67f669a02ff48fcbd1a526cffb68b5fa884e220a",//API KEY DE CUENTA 
+
                     "mensaje" => $mensaje,
                     "numcelular" => $numeroDestino,
                     "numregion" => "52"

@@ -8,8 +8,7 @@ use yii\filters\VerbFilter;
 use app\models\EntUsuarios;
 use movemegif\domain\FileImageCanvas;
 use movemegif\GifBuilder;
-
-
+use app\models\Mensajes;
 
 class SiteController extends Controller
 {
@@ -134,9 +133,12 @@ class SiteController extends Controller
 				]);
 				$urlCorta = $this->getShortUrl($link);
 
-				$message = urlencode("UFC. Comparte tu fotografía: " . $urlCorta);
+				$message = "UFC. Comparte tu fotografía: " . $urlCorta ;
 
-				print_r($this->sendSMS($usuario->txt_telefono_celular, $message));
+				//print_r($this->sendSMS($usuario->txt_telefono_celular, $message));
+				$mensajes = new Mensajes();
+				$resp = $mensajes->mandarMensage($message, $usuario->txt_telefono_celular);
+				print_r($resp);
 
 			}
 		}
