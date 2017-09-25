@@ -108,25 +108,38 @@ class SiteController extends Controller
 		}
 	}
 
-	public function actionGuardarFoto($token = null)
-	{
+	public function actionGuardarFoto($token = null){
+		$this->enableCsrfValidation = false;		
+		require __DIR__ . '\..\vendor\movegif\autoloader.php';
+		// no width and height specified: they will be taken from the first frame
+		$builder = new GifBuilder();
+		$builder->setRepeat();
 
 		$usuario = EntUsuarios::find()->where(['txt_token' => $token])->one();
 		if ($usuario) {
 			if (isset($_POST['imgBase64'])) {
-				$data = $_POST['imgBase64'];
+				var_dump($_POST['imgBase64']);
+				$datas = $_POST['imgBase64'];
 
+				foreach($datas as $data){
+					$data = str_replace('data:image/png;base64,', '', $data);
+					$data = str_replace(' ', '+', $data);
+					$data = base64_decode($data);
+					$nombreFoto = uniqid() . ".png";
+					$file = "fotos-tomadas/" . $nombreFoto;
+					$success = file_put_contents($file, $data);
+	
+					$usuario->txt_imagen = $nombreFoto;
+					$usuario->txt_gif = $token . '.gif';
+					$usuario->save();
 
-				$data = str_replace('data:image/png;base64,', '', $data);
-				$data = str_replace(' ', '+', $data);
-				$data = base64_decode($data);
-				$nombreFoto = uniqid() . ".png";
-				$file = "fotos-tomadas/" . $nombreFoto;
-				$success = file_put_contents($file, $data);
-
-				$usuario->txt_imagen = $nombreFoto;
-				$usuario->save();
-
+					//Generar archivo gif
+					$builder->addFrame()
+					->setCanvas(new FileImageCanvas(__DIR__ . '/../web/fotos-tomadas/' . $nombreFoto))
+					->setDuration(20);
+				}
+				//salidade archivio gif
+				$builder->saveToFile(__DIR__ . '/../web/fotos-tomadas/'.$token.'.gif');
 
 				$link = Yii::$app->urlManager->createAbsoluteUrl([
 					'site/ver-imagen?token=' . $usuario->txt_token
@@ -139,7 +152,6 @@ class SiteController extends Controller
 				$mensajes = new Mensajes();
 				$resp = $mensajes->mandarMensage($message, $usuario->txt_telefono_celular);
 				print_r($resp);
-
 			}
 		}
 
@@ -228,11 +240,12 @@ class SiteController extends Controller
 		for ($i = 1; $i <= 4; $i++) {
 
 			$builder->addFrame()
-				->setCanvas(new FileImageCanvas(__DIR__ . '/../web/fotos-tomadas/' . $i . '.png'))
+				->setCanvas(new FileImageCanvas(__DIR__ . '/../web/horse/' . $i . '.png'))
 				->setDuration(20);
 		}
 
-		$builder->output('horse.gif');
+		$builder->saveToFile(__DIR__ . '/../web/fotos-tomadas/horse.gif');
+		//$builder->output('horse.gif');
 	}
 
 

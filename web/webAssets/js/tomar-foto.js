@@ -44,11 +44,20 @@ $(document).on({
         var l = Ladda.create(this);
         l.start();
 
+        //Guardar las 4 imagenes que se toman
+        var arrayImages = [];
+        $('.js-imagen-preview').each(function(index){
+            arrayImages[index] = $(this).attr('src')
+            //alert(index+"---"+$(this).attr('src'));
+        });
+        //console.log(arrayImages);
+
         $.ajax({
             type: "POST",
             url: "guardar-foto?token="+token,
             data: {
-                imgBase64: dataURL,
+                imgBase64: arrayImages
+                //imgBase64: dataURL,
             },
 
         }).done(function (o) {
@@ -124,7 +133,7 @@ $(document).on({
                         canvas.width = video.videoWidth;
                         canvas.height = video.videoHeight;
                         canvas.getContext('2d').drawImage(video, 0, 0);
-                        var data = canvas.toDataURL('image/webp');
+                        var data = canvas.toDataURL('image/png');
                         document.getElementById('preview-imagen-' + timesButton).setAttribute('src', data);
                         timesButton++;
                     }
